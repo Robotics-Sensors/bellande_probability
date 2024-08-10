@@ -39,7 +39,7 @@
 # Quick Bellande API Testing
 ```
 curl -X 'POST' \
-  'http://localhost:4000/api/Bellande_Distribution/bellande_distribution_function_nd' \
+  'https://bellanderoboticssensorsresearchinnovationcenterwebsite-kot42qxp.b4a.run/api/Bellande_Distribution/bellande_distribution_function_nd' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
