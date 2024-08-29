@@ -13,7 +13,7 @@
 # API Usability
 ```
 {
-  "url": "https://bellanderoboticssensorsresearchinnovationcenter-kot42qxp.b4a.run",
+  "url": "https://bellande-robotics-sensors-research-innovation-center.org",
   "endpoint_path": {
     "bellande_probabilistic": "/api/Bellande_Probabilistic/bellande_probabilistic_nd"
   },
@@ -39,7 +39,7 @@
 # Quick Bellande API Testing
 ```
 curl -X 'POST' \
-  'https://bellanderoboticssensorsresearchinnovationcenterwebsite-kot42qxp.b4a.run/api/Bellande_Distribution/bellande_distribution_function_nd' \
+  'https://bellande-robotics-sensors-research-innovation-center.org/api/Bellande_Distribution/bellande_distribution_function_nd' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
