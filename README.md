@@ -1,4 +1,4 @@
-# 📦 Bellande Probabilistic(Infinite Dimentions)
+# 📦 Bellande Probabilistic (Infinite Dimentions)
 
 ## 🧙 Organization Website
 - [![Organization Website](https://img.shields.io/badge/Explore%20Our-Website-0099cc?style=for-the-badge)](https://robotics-sensors.github.io)
