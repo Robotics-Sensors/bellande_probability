@@ -1,6 +1,6 @@
 [package]
 name = "bellande_probability"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Bellande Robotics Sensors Research Innovation Center"]
 description = "A tool for running Bellande Probability calculations via API"
