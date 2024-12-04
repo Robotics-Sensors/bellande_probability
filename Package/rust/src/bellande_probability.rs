@@ -1,12 +1,15 @@
 // Copyright (C) 2024 Bellande Robotics Sensors Research Innovation Center, Ronaldson Bellande
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -16,34 +19,38 @@ use std::error::Error;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "bellande_probability", about = "Bellande Probability Tool")]
+#[structopt(
+    name = "bellande_probability",
+    about = "Bellande Distribution Probability Tool"
+)]
 struct Opt {
-    #[structopt(long, help = "First coordinate as JSON-formatted list")]
-    node0: String,
-    
-    #[structopt(long, help = "Second coordinate as JSON-formatted list")]
-    node1: String,
-    
-    #[structopt(long, help = "Probability threshold value")]
-    threshold: f64,
-    
+    #[structopt(long, help = "mu function as string")]
+    mu_func: String,
+
+    #[structopt(long, help = "sigma function as string")]
+    sigma_func: String,
+
+    #[structopt(long, help = "Input vector as JSON-formatted list")]
+    x: String,
+
     #[structopt(long, help = "Number of dimensions")]
     dimensions: i32,
-    
+
     #[structopt(long, help = "Use full authentication")]
     full_auth: bool,
 }
 
 async fn make_bellande_probability_request(
-    node0: Value,
-    node1: Value,
-    threshold: f64,
+    mu_func: String,
+    sigma_func: String,
+    x: Value,
     dimensions: i32,
     full_auth: bool,
 ) -> Result<Value, Box<dyn Error>> {
     let client = reqwest::Client::new();
-    let base_url = "https://bellande-robotics-sensors-research-innovation-center.org/api/Bellande_Probability";
-    
+    let base_url =
+        "https://bellande-robotics-sensors-research-innovation-center.org/api/Bellande_Probability";
+
     let endpoint = if full_auth {
         format!("{}/bellande_probability_full_auth", base_url)
     } else {
@@ -61,9 +68,9 @@ async fn make_bellande_probability_request(
     };
 
     let payload = json!({
-        "node0": node0,
-        "node1": node1,
-        "threshold": threshold,
+        "mu_func": mu_func,
+        "sigma_func": sigma_func,
+        "x": x,
         "dimensions": dimensions,
         "auth": auth
     });
@@ -85,18 +92,18 @@ async fn make_bellande_probability_request(
 async fn main() -> Result<(), Box<dyn Error>> {
     let opt = Opt::from_args();
 
-    let node0: Value = serde_json::from_str(&opt.node0)
-        .map_err(|e| format!("Error parsing node0: {}", e))?;
-    let node1: Value = serde_json::from_str(&opt.node1)
-        .map_err(|e| format!("Error parsing node1: {}", e))?;
+    let x: Value =
+        serde_json::from_str(&opt.x).map_err(|e| format!("Error parsing x values: {}", e))?;
 
     match make_bellande_probability_request(
-        node0,
-        node1,
-        opt.threshold,
+        opt.mu_func,
+        opt.sigma_func,
+        x,
         opt.dimensions,
-        opt.full_auth
-    ).await {
+        opt.full_auth,
+    )
+    .await
+    {
         Ok(result) => {
             println!("{}", serde_json::to_string_pretty(&result)?);
         }
