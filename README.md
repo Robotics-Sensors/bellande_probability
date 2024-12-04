@@ -30,7 +30,7 @@
 url: https://bellande-robotics-sensors-research-innovation-center.org
 
 endpoint_path:
-    bellande_probabilistic: /api/Bellande_Probabilistic/bellande_probabilistic_nd
+    bellande_probabilistic: /api/Bellande_Probabilistic/bellande_probabilistic
 
 Bellande_Framework_Access_Key: bellande_web_api_opensource
 ```
@@ -56,7 +56,7 @@ Bellande_Framework_Access_Key: bellande_web_api_opensource
   ],
   "url": "https://bellande-robotics-sensors-research-innovation-center.org",
   "endpoint_path": {
-    "bellande_probabilistic": "/api/Bellande_Probabilistic/bellande_probabilistic_nd"
+    "bellande_probabilistic": "/api/Bellande_Probabilistic/bellande_probabilistic"
   },
   "Bellande_Framework_Access_Key": "bellande_web_api_opensource"
 }
