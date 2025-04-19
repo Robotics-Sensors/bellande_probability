@@ -1,6 +1,6 @@
 [package]
 name = "bellande_probability"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Bellande Robotics Sensors Research Innovation Center"]
 description = "A tool for running Bellande Probability calculations via API"
@@ -12,12 +12,8 @@ categories = ["science", "algorithms"]
 
 [dependencies]
 reqwest = { version = "0.11", features = ["json"] }
-serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 structopt = "0.3"
-tokio = { version = "1.0", features = ["full"] }
-thiserror = "1.0"
-anyhow = "1.0"
 
 [lib]
 name = "bellande_probability"

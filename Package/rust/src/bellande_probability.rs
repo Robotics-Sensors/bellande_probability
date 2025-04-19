@@ -40,7 +40,7 @@ struct Opt {
     full_auth: bool,
 }
 
-async fn make_bellande_probability_request(
+pub async fn make_bellande_probability_request(
     mu_func: String,
     sigma_func: String,
     x: Value,
@@ -88,30 +88,50 @@ async fn make_bellande_probability_request(
     Ok(response)
 }
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn Error>> {
-    let opt = Opt::from_args();
+pub async fn make_bellande_probability_request_local(
+    url: &str,
+    mu_func: String,
+    sigma_func: String,
+    x: Value,
+    dimensions: i32,
+    full_auth: bool,
+) -> Result<Value, Box<dyn Error>> {
+    let client = reqwest::Client::new();
+    let base_url = url;
 
-    let x: Value =
-        serde_json::from_str(&opt.x).map_err(|e| format!("Error parsing x values: {}", e))?;
+    let endpoint = if full_auth {
+        format!("{}/bellande_probability_full_auth", base_url)
+    } else {
+        format!("{}/bellande_probability", base_url)
+    };
 
-    match make_bellande_probability_request(
-        opt.mu_func,
-        opt.sigma_func,
-        x,
-        opt.dimensions,
-        opt.full_auth,
-    )
-    .await
-    {
-        Ok(result) => {
-            println!("{}", serde_json::to_string_pretty(&result)?);
-        }
-        Err(e) => {
-            eprintln!("Error: {}", e);
-            std::process::exit(1);
-        }
-    }
+    let auth = if full_auth {
+        json!({
+            "full_authorization_key": "bellande_web_api_full_auth"
+        })
+    } else {
+        json!({
+            "authorization_key": "bellande_web_api_opensource"
+        })
+    };
 
-    Ok(())
+    let payload = json!({
+        "mu_func": mu_func,
+        "sigma_func": sigma_func,
+        "x": x,
+        "dimensions": dimensions,
+        "auth": auth
+    });
+
+    let response = client
+        .post(&endpoint)
+        .header("accept", "application/json")
+        .header("Content-Type", "application/json")
+        .json(&payload)
+        .send()
+        .await?
+        .json::<Value>()
+        .await?;
+
+    Ok(response)
 }
